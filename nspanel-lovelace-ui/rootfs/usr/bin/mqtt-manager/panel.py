@@ -121,14 +121,11 @@ class LovelaceUIPanel:
         dateformat = self.settings["dateFormat"]
         date_string = babel.dates.format_date(
             datetime.datetime.now(), dateformat, locale=self.settings["locale"])
-
+        ## addTemplate
         addTemplate = self.settings["dateAdditionalTemplate"]
         libs.home_assistant.cache_template(addTemplate)
         addDateText = libs.home_assistant.get_template(addTemplate)
-       
-        #self._send_mqtt_msg(f"date~{date}{addDateText}")
-        
-        libs.panel_cmd.send_date(self.msg_out_queue, self.sendTopic, date_string, addDateText)
+        libs.panel_cmd.send_date(self.msg_out_queue, self.sendTopic, f"{date_string}{addDateText}")
 
     def searchCard(self, iid):
         if iid in self.navigate_keys:

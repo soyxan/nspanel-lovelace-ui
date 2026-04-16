@@ -131,7 +131,7 @@ class LovelaceUIPanel:
             logging.debug("dateformat (rendered) from NsPanel (%s): %s", self.name, dateformat)
         date_string = babel.dates.format_date(
             datetime.datetime.now(), dateformat, locale=self.settings["locale"])
-       libs.panel_cmd.send_date(self.msg_out_queue, self.sendTopic, date_string)
+        libs.panel_cmd.send_date(self.msg_out_queue, self.sendTopic, date_string)
 
     def searchCard(self, iid):
         if iid in self.navigate_keys:

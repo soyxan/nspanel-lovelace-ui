@@ -66,8 +66,9 @@ class LovelaceUIPanel:
 
         self.schedule = Scheduler()
         self.schedule.minutely(datetime.time(second=0), self.update_time)
-        self.schedule.hourly(datetime.time(
-            minute=0, second=0), self.update_date)
+        #self.schedule.hourly(datetime.time(minute=0, second=0), self.update_date)
+        self.schedule.minutely(datetime.time(second=0), self.update_date)
+        
         schedule_thread = threading.Thread(target=self.schedule_thread_target)
         schedule_thread.daemon = True
         schedule_thread.start()
@@ -100,6 +101,10 @@ class LovelaceUIPanel:
         for e in self.screensaver.entities:
             e.prerender()
 
+        # dateAdditionalTemplate
+        if isinstance(self.settings.get("dateAdditionalTemplate",""), str) and self.settings.get("dateAdditionalTemplate", "").startswith("ha:"):
+            libs.home_assistant.cache_template(self.settings.get("dateAdditionalTemplate"))
+
         libs.panel_cmd.page_type(self.msg_out_queue, self.sendTopic, "pageStartup")
 
 
@@ -126,7 +131,6 @@ class LovelaceUIPanel:
         logging.debug("addTemplate from NsPanel (%s): %s", self.name, addTemplate)
         addDateText = ""
         if addTemplate.startswith("ha:"):
-            libs.home_assistant.cache_template(addTemplate)
             addDateText = libs.home_assistant.get_template(addTemplate)
             logging.debug("addDateText from NsPanel (%s): %s", self.name, addDateText)
         libs.panel_cmd.send_date(self.msg_out_queue, self.sendTopic, f"{date_string}{addDateText}")

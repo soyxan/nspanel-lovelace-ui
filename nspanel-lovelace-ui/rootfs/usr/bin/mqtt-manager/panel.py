@@ -122,7 +122,7 @@ class LovelaceUIPanel:
         date_string = babel.dates.format_date(
             datetime.datetime.now(), dateformat, locale=self.settings["locale"])
         ## addTemplate
-        addTemplate = self.settings["dateAdditionalTemplate"]
+        addTemplate = self.settings.get("dateAdditionalTemplate", "")
         libs.home_assistant.cache_template(addTemplate)
         addDateText = libs.home_assistant.get_template(addTemplate)
         libs.panel_cmd.send_date(self.msg_out_queue, self.sendTopic, f"{date_string}{addDateText}")

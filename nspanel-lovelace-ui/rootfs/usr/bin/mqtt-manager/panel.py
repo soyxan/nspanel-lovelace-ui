@@ -101,9 +101,9 @@ class LovelaceUIPanel:
         for e in self.screensaver.entities:
             e.prerender()
 
-        # dateAdditionalTemplate
-        if isinstance(self.settings.get("dateAdditionalTemplate",""), str) and self.settings.get("dateAdditionalTemplate", "").startswith("ha:"):
-            libs.home_assistant.cache_template(self.settings.get("dateAdditionalTemplate"))
+        # dateFormat
+        if isinstance(self.settings.get("dateFormat",""), str) and self.settings.get("dateFormat", "").startswith("ha:"):
+            libs.home_assistant.cache_template(self.settings.get("dateFormat"))
 
         libs.panel_cmd.page_type(self.msg_out_queue, self.sendTopic, "pageStartup")
 
@@ -124,16 +124,13 @@ class LovelaceUIPanel:
 
     def update_date(self):
         dateformat = self.settings["dateFormat"]
+        # allows template in dateFormat
+        if dateformat.startswith("ha:"):
+            dateformat = libs.home_assistant.get_template(dateformat)
+            logging.debug("dateformat from NsPanel (%s): %s", self.name, dateformat)
         date_string = babel.dates.format_date(
             datetime.datetime.now(), dateformat, locale=self.settings["locale"])
-        ## addTemplate
-        addTemplate = self.settings.get("dateAdditionalTemplate", "")
-        logging.debug("addTemplate from NsPanel (%s): %s", self.name, addTemplate)
-        addDateText = ""
-        if addTemplate.startswith("ha:"):
-            addDateText = libs.home_assistant.get_template(addTemplate)
-            logging.debug("addDateText from NsPanel (%s): %s", self.name, addDateText)
-        libs.panel_cmd.send_date(self.msg_out_queue, self.sendTopic, f"{date_string}{addDateText}")
+       libs.panel_cmd.send_date(self.msg_out_queue, self.sendTopic, date_string)
 
     def searchCard(self, iid):
         if iid in self.navigate_keys:

@@ -127,7 +127,7 @@ class LovelaceUIPanel:
         if addTemplate.startswith("ha:"):
             libs.home_assistant.cache_template(addTemplate)
             addDateText = libs.home_assistant.get_template(addTemplate)
-            logging.debug(f"{self.name}-{addDateText}")
+            logging.debug(f"dateAdditionalTemplate-{self.name}-{addDateText}")
         libs.panel_cmd.send_date(self.msg_out_queue, self.sendTopic, f"{date_string}{addDateText}")
 
     def searchCard(self, iid):

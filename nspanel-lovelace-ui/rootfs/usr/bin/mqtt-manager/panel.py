@@ -126,8 +126,9 @@ class LovelaceUIPanel:
         dateformat = self.settings["dateFormat"]
         # allows template in dateFormat
         if dateformat.startswith("ha:"):
-            dateformat = libs.home_assistant.get_template(dateformat)
             logging.debug("dateformat from NsPanel (%s): %s", self.name, dateformat)
+            dateformat = libs.home_assistant.get_template(dateformat)
+            logging.debug("dateformat (rendered) from NsPanel (%s): %s", self.name, dateformat)
         date_string = babel.dates.format_date(
             datetime.datetime.now(), dateformat, locale=self.settings["locale"])
        libs.panel_cmd.send_date(self.msg_out_queue, self.sendTopic, date_string)

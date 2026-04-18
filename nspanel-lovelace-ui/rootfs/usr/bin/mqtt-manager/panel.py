@@ -130,6 +130,7 @@ class LovelaceUIPanel:
             logging.debug("dateformat from NsPanel (%s): %s", self.name, dateformat)
             dateformat = (libs.home_assistant.get_template(dateformat))[3:]
             logging.debug("dateformat (rendered) from NsPanel (%s): %s", self.name, dateformat)
+        if dateformat.startswith("'"):
             self.screensaver.theme["date"] = 65504
         else:
             self.screensaver.theme["date"] = 65535

@@ -132,8 +132,12 @@ class LovelaceUIPanel:
             self.screensaver.theme["date"] = 65504
         else:
             self.screensaver.theme["date"] = 65535
-        date_string = babel.dates.format_date(
-            datetime.datetime.now(), dateformat, locale=self.settings["locale"])
+        date_string = babel.dates.format_date(datetime.datetime.now(), dateformat, locale=self.settings["locale"])
+        libs.panel_cmd.screensaverColor(
+                self.msg_out_queue,
+                self.sendTopic,
+                ha_cards.get_screensaver_color_output(self.screensaver.theme),
+            )
         libs.panel_cmd.send_date(self.msg_out_queue, self.sendTopic, date_string)
 
     def searchCard(self, iid):

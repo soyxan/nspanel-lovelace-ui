@@ -128,8 +128,10 @@ class LovelaceUIPanel:
         if dateformat.startswith("ha:"):
             logging.debug("dateformat from NsPanel (%s): %s", self.name, dateformat)
             dateformat = (libs.home_assistant.get_template(dateformat))[3:]
-            logging.debug("dateformat (rendered) from NsPanel (%s): %s", self.name, dateformat)            
-            logging.debug("screensaver theme from NsPanel (%s): %s", self.name, vars(self.screensaver.theme))
+            logging.debug("dateformat (rendered) from NsPanel (%s): %s", self.name, dateformat)
+            self.screensaver.theme["date"] = 65504
+        else:
+            self.screensaver.theme["date"] = 65535
         date_string = babel.dates.format_date(
             datetime.datetime.now(), dateformat, locale=self.settings["locale"])
         libs.panel_cmd.send_date(self.msg_out_queue, self.sendTopic, date_string)

@@ -7,7 +7,8 @@ from scheduler import Scheduler
 import scheduler.trigger as trigger
 import time
 import babel.dates
-from ha_cards import Screensaver, card_factory, detail_open, ha_cards
+from ha_cards import Screensaver, card_factory, detail_open
+import ha_cards
 import ha_control
 
 class LovelaceUIPanel:
